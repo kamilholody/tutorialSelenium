@@ -41,9 +41,35 @@ public class CssSelectorsTest {
         driver.findElement(trInTable);
         driver.findElement(trInBody);
 
+        By firstChildUlinDiv = By.cssSelector("div > ul");
+        By firstChildTrInbody = By.cssSelector("tbody > tr");
 
+        driver.findElement(firstChildUlinDiv);
+        driver.findElement(firstChildTrInbody);
 
+        By firstFormAfterLabel = By.cssSelector("label + form");
+        By allFormsAfterLabel = By.cssSelector("label ~ form");
 
+        driver.findElement(firstFormAfterLabel);
+        driver.findElement(allFormsAfterLabel);
+
+        By attrTag = By.cssSelector("input[name='fname']");
+        By attrContains = By.cssSelector("[name*='name']");
+        By attrStarts = By.cssSelector("[name^='f']");
+        By attrEnds = By.cssSelector("[name$='name']");
+
+        driver.findElement(attrTag);
+        driver.findElement(attrContains);
+        driver.findElement(attrStarts);
+        driver.findElement(attrEnds);
+
+        By firstChild = By.cssSelector("li:first-child");
+        By lastChild = By.cssSelector("li:last-child");
+        By thirdChild = By.cssSelector("li:nth-child(3)");
+
+        driver.findElement(firstChild);
+        driver.findElement(lastChild);
+        driver.findElement(thirdChild);
 
     }
 }
