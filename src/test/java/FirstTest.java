@@ -1,56 +1,66 @@
-import org.openqa.selenium.*;
+import io.github.bonigarcia.wdm.WebDriverManager;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.support.ui.FluentWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class FirstTest {
+import java.time.Duration;
+import java.util.List;
 
+
+public class FirstTest extends BaseTest {
+
+    WebDriver driver;
 
     @Test
-    public void openGooglePage() throws InterruptedException {
+    public void fistTest()  {
 
-        WebDriver driver = getDriver("chrome");
-        driver.manage().window().maximize();
-        driver.get("https://www.google.com");
+        WebDriverManager.chromedriver().setup();
+        driver = new ChromeDriver();
+        driver.get("https://testeroprogramowania.github.io/selenium/wait2.html");
+        driver.findElement(By.id("clickOnMe")).click();
+        waitForElementToExist(By.cssSelector("p"));
 
-
-        // znalezenie przycisku
-        WebElement agreeButton = driver.findElement(By.xpath("//div[text()='Zaakceptuj wszystko']"));
-        // kliknięcie przycisków
-        agreeButton.click();
-        // znajdz pole wyszukiwania
-        WebElement searchField = driver.findElement(By.name("q"));
-        // wprowadz wartosc Selenium do pola
-        searchField.sendKeys("Selenium");
-        // zasymuluj nacisniecie przycisku Enter
-        Thread.sleep(1000);
-        searchField.sendKeys(Keys.ENTER);
-        // znalezc rezultat
-        WebElement result = driver.findElement(By.xpath("//a[contains(@href,'selenium.dev')]//h3"));
-
-        Assert.assertTrue(result.isDisplayed());
-
+        String paraText = driver.findElement(By.cssSelector("p")).getText();
+        Assert.assertEquals(paraText, "Dopiero się pojawiłem!");
+        driver.quit();
     }
 
+    @Test
+    public void secondTest()  {
 
-    public WebDriver getDriver(String browser){
+        WebDriverManager.chromedriver().setup();
+        driver = new ChromeDriver();
+        driver.get("https://testeroprogramowania.github.io/selenium/wait2.html");
+        driver.findElement(By.id("clickOnMe")).click();
+        waitForElementToExist(By.cssSelector("p"));
 
-
-        if (browser.equals("chrome")) {
-            String path1 = "C:\\Users\\kamil.holody\\OneDrive - GK\\Dokumenty\\chromedriver_win32\\chromedriver.exe";
-            System.setProperty("webdriver.chrome.driver", path1);
-            return new ChromeDriver();
-        } else if (browser.equals("firefox")) {
-            String path2 = "C:\\Users\\kamil.holody\\OneDrive - GK\\Dokumenty\\geckodriver-v0.33.0-win-aarch64\\geckodriver.exe";
-            System.setProperty("webdriver.gecko.driver", path2);
-            return new FirefoxDriver();
-        } else if (browser.equals("ie")) {
-            String path3 = "C:\\Users\\kamil.holody\\OneDrive - GK\\Dokumenty\\IEDriverServer_x64_4.8.1\\IEDriverServer.exe";
-            System.setProperty("webdriver.ie.driver", path3);
-            return new InternetExplorerDriver();
-        }
-        throw new InvalidArgumentException("Invalid browser name");
+        String paraText = driver.findElement(By.cssSelector("p")).getText();
+        Assert.assertEquals(paraText, "Dopiero się pojawiłem!");
+        driver.quit();
     }
+
+    public void waitForElementToExist(By locator) {
+        FluentWait<WebDriver> wait = new FluentWait<>(driver);
+        wait.ignoring(NoSuchElementException.class);
+        wait.withTimeout(Duration.ofSeconds(10));
+        wait.pollingEvery(Duration.ofSeconds(1));
+
+
+        wait.until((driver) -> {
+                List<WebElement> elements = driver.findElements(locator);
+                if(elements.size()>0){
+                    System.out.println("Element jest na stronie");
+                    return true;
+                } else {
+                    System.out.println("Elementu na ma na stronie");
+                    return false;
+                }
+            });
+    }
+
 }
