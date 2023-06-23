@@ -1,3 +1,5 @@
+package pl.testeroprogramowania;
+
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
@@ -7,6 +9,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import pl.testeroprogramowania.BaseTest;
 
 import java.time.Duration;
 import java.util.List;
