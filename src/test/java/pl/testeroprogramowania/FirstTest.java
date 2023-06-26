@@ -1,18 +1,15 @@
 package pl.testeroprogramowania;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
-
 import java.time.Duration;
 import java.util.List;
 
@@ -24,8 +21,7 @@ public class FirstTest extends BaseTest {
     @Test
     public void fistTest()  {
 
-        WebDriverManager.chromedriver().setup();
-        driver = new ChromeDriver();
+        driver = DriverFactory.getDriver();
         driver.get("https://testeroprogramowania.github.io/selenium/wait2.html");
         driver.findElement(By.id("clickOnMe")).click();
         waitForElementToExist(By.cssSelector("p"));
@@ -35,7 +31,7 @@ public class FirstTest extends BaseTest {
 
         Assert.assertEquals(para.isDisplayed(), true);
         Assert.assertTrue(para.isDisplayed(), "Element is not displayed!");
-        //Assert.assertEquals(para.getText(), "Dopiero", "Teksty są różne!");
+        Assert.assertEquals(para.getText(), "Dopiero", "Teksty są różne!");
         Assert.assertTrue(para.getText().startsWith("Dopiero"));
         Assert.assertFalse(para.getText().startsWith("Pojawiłem"));
         Assert.assertEquals(para.getText(), "Dopiero się pojawiłem!");
@@ -46,8 +42,8 @@ public class FirstTest extends BaseTest {
     @Test @Ignore
     public void secondTest()  {
 
-        WebDriverManager.chromedriver().setup();
-        driver = new ChromeDriver();
+
+        driver = DriverFactory.getDriver();
         driver.get("https://testeroprogramowania.github.io/selenium/wait2.html");
         driver.findElement(By.id("clickOnMe")).click();
         waitForElementToExist(By.cssSelector("p"));
