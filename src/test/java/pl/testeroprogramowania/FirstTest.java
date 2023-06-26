@@ -19,7 +19,7 @@ public class FirstTest extends BaseTest {
 
     WebDriver driver;
 
-    @Test @Ignore
+    @Test
     public void fistTest()  {
 
         WebDriverManager.chromedriver().setup();
@@ -28,8 +28,16 @@ public class FirstTest extends BaseTest {
         driver.findElement(By.id("clickOnMe")).click();
         waitForElementToExist(By.cssSelector("p"));
 
+        WebElement para = driver.findElement(By.cssSelector("p"));
         String paraText = driver.findElement(By.cssSelector("p")).getText();
-        Assert.assertEquals(paraText, "Dopiero się pojawiłem!");
+
+        Assert.assertEquals(para.isDisplayed(), true);
+        Assert.assertTrue(para.isDisplayed(), "Element is not displayed!");
+        //Assert.assertEquals(para.getText(), "Dopiero", "Teksty są różne!");
+        Assert.assertTrue(para.getText().startsWith("Dopiero"));
+        Assert.assertFalse(para.getText().startsWith("Pojawiłem"));
+        Assert.assertEquals(para.getText(), "Dopiero się pojawiłem!");
+
         driver.quit();
     }
 
