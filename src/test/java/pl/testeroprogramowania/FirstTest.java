@@ -10,6 +10,7 @@ import org.openqa.selenium.support.ui.FluentWait;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
 
 import java.time.Duration;
 import java.util.List;
@@ -29,7 +30,7 @@ public class FirstTest extends BaseTest {
         waitForElementToExist(By.cssSelector("p"));
 
         WebElement para = driver.findElement(By.cssSelector("p"));
-        String paraText = driver.findElement(By.cssSelector("p")).getText();
+
 
         Assert.assertEquals(para.isDisplayed(), true);
         Assert.assertTrue(para.isDisplayed(), "Element is not displayed!");
@@ -50,9 +51,21 @@ public class FirstTest extends BaseTest {
         driver.findElement(By.id("clickOnMe")).click();
         waitForElementToExist(By.cssSelector("p"));
 
-        String paraText = driver.findElement(By.cssSelector("p")).getText();
-        Assert.assertEquals(paraText, "Dopiero się pojawiłem!");
+        WebElement para = driver.findElement(By.cssSelector("p"));
+
+        SoftAssert softAssert = new SoftAssert();
+
+
+        softAssert.assertEquals(para.isDisplayed(), true);
+        softAssert.assertTrue(para.isDisplayed(), "Element is not displayed!");
+        softAssert.assertEquals(para.getText(), "Dopiero", "Teksty są różne!");
+        softAssert.assertTrue(para.getText().startsWith("Dopiero"));
+        softAssert.assertFalse(para.getText().startsWith("Pojawiłem"));
+        softAssert.assertEquals(para.getText(), "Dopiero się", "Druga asercja");
+
+
         driver.quit();
+        softAssert.assertAll();
     }
 
     public void waitForElementToExist(By locator) {
